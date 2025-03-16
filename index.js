@@ -11,7 +11,7 @@ export default {
   printWidth: 100,
   jsxSingleQuote: false,
   bracketSameLine: false,
-  bracketSpacing: false,
+  bracketSpacing: true,
   arrowParens: "avoid",
   endOfLine: "lf"
 }
