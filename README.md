@@ -2,7 +2,7 @@
 
 A simple Prettier config for my personal projects 💅🏻
 
-![NPM Version](https://img.shields.io/npm/v/:prettier-config-dheerajmahra)
+![NPM Version](https://img.shields.io/npm/v/prettier-config-dheerajmahra)
 
 
 ## Using this config in your project
