@@ -1,6 +1,6 @@
 {
   "name": "prettier-config-dheerajmahra",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple prettier config for my personal projects",
   "type": "module",
   "exports": "./index.js",
