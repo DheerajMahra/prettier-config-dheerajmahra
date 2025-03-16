@@ -1,0 +1,13 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prettify": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "Dheeraj Mahra <dheerajmahra873@gmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1"
+}
