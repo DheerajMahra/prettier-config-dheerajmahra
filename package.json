@@ -1,0 +1,26 @@
+{
+  "name": "@dheerajmahra/prettier-config",
+  "version": "1.0.0",
+  "description": "A simple prettier config for my personal projects 💅",
+  "type": "module",
+  "exports": "./index.js",
+  "scripts": {},
+  "keywords": [
+    "prettier",
+    "config",
+    "prettierconfig",
+    "dheerajmahra"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  },
+  "peerDependencies": {
+    "prettier": ">=3.0.0"
+  },
+  "author": "Dheeraj Mahra <dheerajmahra873@gmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1"
+}
