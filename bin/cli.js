@@ -162,6 +162,50 @@ function checkPackageJson() {
   }
 }
 
+function isPrettierInstalled() {
+  const packageJsonPath = path.join(process.cwd(), "package.json");
+
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+    const allDeps = {
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies
+    };
+
+    return allDeps.hasOwnProperty("prettier");
+  } catch (error) {
+    return false;
+  }
+}
+
+function installPrettier(packageManager) {
+  log.info(`Installing prettier with ${packageManager}...`);
+
+  try {
+    let command;
+    switch (packageManager) {
+      case "pnpm":
+        command = "pnpm add --save-dev --save-exact prettier";
+        break;
+      case "yarn":
+        command = "yarn add --dev --exact prettier";
+        break;
+      case "npm":
+      default:
+        command = "npm install --save-dev --save-exact prettier";
+        break;
+    }
+
+    execSync(command, { stdio: "inherit" });
+    log.success("Installed prettier");
+    return true;
+  } catch (error) {
+    log.error("Failed to install prettier");
+    console.error(error.message);
+    return false;
+  }
+}
+
 async function main() {
   log.header("💅🏻 Setting up Prettier Config by Dheeraj Mahra");
 
@@ -171,20 +215,28 @@ async function main() {
   const packageManager = detectPackageManager();
   log.info(`Detected package manager: ${packageManager}`);
 
-  // Step 1: Install the package
+  // Step 1: Check and install prettier if not present
+  if (!isPrettierInstalled()) {
+    const prettierInstalled = installPrettier(packageManager);
+    if (!prettierInstalled) {
+      log.warn("Could not install prettier automatically. You can install it manually later.");
+    }
+  }
+
+  // Step 2: Install the prettier config package
   const installed = installPackage(packageManager);
   if (!installed) {
     log.error("Setup failed. Could not install package.");
     process.exit(1);
   }
 
-  // Step 2: Create .prettierrc
+  // Step 3: Create .prettierrc
   createPrettierrc();
 
-  // Step 3: Create .prettierignore
+  // Step 4: Create .prettierignore
   createPrettierignore();
 
-  // Step 4: Create .vscode/settings.json
+  // Step 5: Create .vscode/settings.json
   createVSCodeSettings();
 
   // Success message
