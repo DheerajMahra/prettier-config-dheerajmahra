@@ -81,6 +81,48 @@ function createPrettierignore() {
   }
 }
 
+function createVSCodeSettings() {
+  const vscodeDirPath = path.join(process.cwd(), ".vscode");
+  const settingsPath = path.join(vscodeDirPath, "settings.json");
+
+  // Create .vscode directory if it doesn't exist
+  if (!fs.existsSync(vscodeDirPath)) {
+    fs.mkdirSync(vscodeDirPath, { recursive: true });
+  }
+
+  if (fs.existsSync(settingsPath)) {
+    // If settings.json exists, merge with existing settings
+    try {
+      const existingSettings = JSON.parse(fs.readFileSync(settingsPath, "utf8"));
+      const templatePath = path.join(__dirname, "..", "templates", "settings.json");
+      const newSettings = JSON.parse(fs.readFileSync(templatePath, "utf8"));
+
+      const mergedSettings = { ...existingSettings, ...newSettings };
+      fs.writeFileSync(settingsPath, JSON.stringify(mergedSettings, null, 2), "utf8");
+      log.success("Updated .vscode/settings.json with Prettier configuration");
+      return true;
+    } catch (error) {
+      log.error("Failed to update .vscode/settings.json");
+      console.error(error.message);
+      return false;
+    }
+  } else {
+    // Create new settings.json
+    const templatePath = path.join(__dirname, "..", "templates", "settings.json");
+
+    try {
+      const settingsContent = fs.readFileSync(templatePath, "utf8");
+      fs.writeFileSync(settingsPath, settingsContent, "utf8");
+      log.success("Created .vscode/settings.json");
+      return true;
+    } catch (error) {
+      log.error("Failed to create .vscode/settings.json from template");
+      console.error(error.message);
+      return false;
+    }
+  }
+}
+
 function installPackage(packageManager) {
   const packageName = "@dheerajmahra/prettier-config";
 
@@ -142,10 +184,15 @@ async function main() {
   // Step 3: Create .prettierignore
   createPrettierignore();
 
+  // Step 4: Create .vscode/settings.json
+  createVSCodeSettings();
+
   // Success message
   log.header("✨ Setup complete!");
   log.info("You can now use prettier with your new config:");
   console.log(`  ${colors.bright}${packageManager === "pnpm" ? "pnpm" : packageManager === "yarn" ? "yarn" : "npx"} prettier --write .${colors.reset}`);
+  console.log("");
+  log.info("VS Code is now configured to format on save using Prettier!");
   console.log("");
 }
 
