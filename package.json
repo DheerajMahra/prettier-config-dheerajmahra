@@ -4,15 +4,22 @@
   "description": "A simple prettier config for my personal projects 💅",
   "type": "module",
   "exports": "./index.js",
+  "bin": {
+    "prettier-config": "./bin/cli.js"
+  },
   "scripts": {},
   "keywords": [
     "prettier",
     "config",
     "prettierconfig",
-    "dheerajmahra"
+    "dheerajmahra",
+    "cli",
+    "setup"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "bin/cli.js",
+    "templates"
   ],
   "devDependencies": {
     "prettier": "^3.5.3"
